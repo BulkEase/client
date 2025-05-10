@@ -5,11 +5,133 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Product, productsAPI } from '@/lib/api';
 import ProductCard from '@/components/products/ProductCard';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 export default function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Fake products for the carousel
+  const fakeProducts = [
+    {
+      id: 1,
+      name: 'Claw clips',
+      price: 25,
+      image: 'https://placehold.co/300x300?text=Claw+Clips',
+    },
+    {
+      id: 2,
+      name: 'Cable Protector',
+      price: 20,
+      image: 'https://placehold.co/300x300?text=Cable+Protector',
+    },
+    {
+      id: 3,
+      name: 'Clean and Shine gel',
+      price: 40,
+      image: 'https://placehold.co/300x300?text=Clean+and+Shine',
+    },
+    {
+      id: 4,
+      name: 'Mosquito Racquet',
+      price: 230,
+      image: 'https://placehold.co/300x300?text=Mosquito+Racquet',
+    },
+    {
+      id: 5,
+      name: 'Desk Lamp',
+      price: 150,
+      image: 'https://placehold.co/300x300?text=Desk+Lamp',
+    },
+    {
+      id: 6,
+      name: 'Notebook',
+      price: 60,
+      image: 'https://placehold.co/300x300?text=Notebook',
+    },
+    {
+      id: 7,
+      name: 'Water Bottle',
+      price: 80,
+      image: 'https://placehold.co/300x300?text=Water+Bottle',
+    },
+    {
+      id: 8,
+      name: 'Pen Set',
+      price: 35,
+      image: 'https://placehold.co/300x300?text=Pen+Set',
+    },
+  ];
+
+  const sliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    arrows: true,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    pauseOnHover: true,
+    nextArrow: <CustomNextArrow />,
+    prevArrow: <CustomPrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        }
+      }
+    ]
+  };
+
+  // Custom arrow components
+  function CustomNextArrow(props: any) {
+    const { onClick } = props;
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        className="slick-next"
+        aria-label="Next"
+      >
+        <IoIosArrowForward size={24} />
+      </button>
+    );
+  }
+
+  function CustomPrevArrow(props: any) {
+    const { onClick } = props;
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        className="slick-prev"
+        aria-label="Previous"
+      >
+        <IoIosArrowBack size={24} />
+      </button>
+    );
+  }
 
   useEffect(() => {
     fetchFeaturedProducts();
@@ -19,8 +141,6 @@ export default function HomePage() {
     try {
       setIsLoading(true);
       const response = await productsAPI.getAll();
-      // In a real app, you might have an API endpoint for featured products
-      // For now, we'll just take the first few products
       setFeaturedProducts(response.data.slice(0, 4));
       setError(null);
     } catch (err: any) {
@@ -34,7 +154,7 @@ export default function HomePage() {
   return (
     <div>
       {/* Hero Section - Matching the image */}
-      <section className="bg-green-800 text-white py-12 lg:py-20">
+      <section className="bg-white text-gray-900 py-12 lg:py-20">
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center">
             <div className="lg:w-1/2 mb-10 lg:mb-0">
@@ -57,7 +177,7 @@ export default function HomePage() {
             <div className="lg:w-1/2 flex justify-center">
               <div className="relative w-full max-w-md h-80 md:h-96">
                 <Image
-                  src="/images/community-circle.png"
+                  src="/images/hero-section-image.png"
                   alt="People joining hands in a circle"
                   fill
                   className="object-contain"
@@ -69,140 +189,203 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section className="py-16 bg-gray-50">
+      {/* Featured Products Carousel */}
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">How Group Buying Works</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div className="text-center">
-              <div className="bg-green-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
-                <span className="text-green-800 text-3xl font-bold">1</span>
-              </div>
-              <h3 className="text-xl font-bold mb-3">Choose Products</h3>
-              <p className="text-gray-600">Browse our catalog and add items to your cart that you want to purchase in bulk.</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-green-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
-                <span className="text-green-800 text-3xl font-bold">2</span>
-              </div>
-              <h3 className="text-xl font-bold mb-3">Join a Batch</h3>
-              <p className="text-gray-600">Join an existing batch with others or create a new one for your bulk orders.</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-green-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
-                <span className="text-green-800 text-3xl font-bold">3</span>
-              </div>
-              <h3 className="text-xl font-bold mb-3">Save Together</h3>
-              <p className="text-gray-600">Unlock volume discounts when the batch is complete and get your products delivered.</p>
-            </div>
+          <div className="flex justify-between items-center mb-10">
+            <h2 className="text-3xl font-bold text-left text-green-800">Our latest content!</h2>
+            <Link href="#" className="text-green-700 font-semibold flex items-center gap-1 hover:underline">
+              See all <span aria-hidden>→</span>
+            </Link>
           </div>
-        </div>
-      </section>
-
-      {/* Featured Products */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-10 text-center">Popular Products</h2>
-          
-          {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-              {error}
-            </div>
-          )}
-          
-          {isLoading ? (
-            <div className="text-center py-8">
-              <p>Loading products...</p>
-            </div>
-          ) : (
-            <>
-              {featuredProducts.length === 0 ? (
-                <p className="text-center py-8">No products available at the moment.</p>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {featuredProducts.map(product => (
-                    <ProductCard key={product._id} product={product} />
-                  ))}
+          <p className="mb-8 text-lg text-gray-600">Check out the products we offer</p>
+          <div className="carousel-container">
+            <Slider {...sliderSettings}>
+              {fakeProducts.map((product) => (
+                <div key={product.id} className="px-2">
+                  <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                    <div className="w-full h-48 relative">
+                      <img 
+                        src={product.image} 
+                        alt={product.name} 
+                        className="w-full h-full object-contain"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = 'https://placehold.co/300x300?text=No+Image';
+                        }}
+                      />
+                    </div>
+                    <div className="p-4">
+                      <h3 className="text-xl font-bold text-center mb-2 text-black h-[3.5rem] line-clamp-2">{product.name}</h3>
+                      <div className="text-2xl font-bold mb-2 text-black text-center">₹ {product.price.toFixed(2)}</div>
+                      <div className="flex items-center mb-4">
+                        <div className="flex">
+                          <span className="text-yellow-400 text-xl">★</span>
+                          <span className="text-yellow-400 text-xl">★</span>
+                          <span className="text-yellow-400 text-xl">★</span>
+                          <span className="text-yellow-400 text-xl">★</span>
+                          <span className="text-yellow-400 text-xl">★</span>
+                        </div>
+                        <span className="ml-2 text-gray-500">(0)</span>
+                      </div>
+                      <button className="bg-green-800 text-white px-8 py-2 rounded font-semibold hover:bg-green-900 transition w-full">
+                        View Product
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              )}
-              
-              <div className="text-center mt-12">
-                <Link
-                  href="/products"
-                  className="bg-green-700 text-white py-3 px-8 rounded-md hover:bg-green-800 transition inline-block"
-                >
-                  View All Products
-                </Link>
-              </div>
-            </>
-          )}
+              ))}
+            </Slider>
+          </div>
         </div>
       </section>
 
-      {/* Benefits Section */}
+      {/* Categories Section */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Why Choose BulkEase?</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="text-green-600 mb-4">
-                <svg
-                  className="w-12 h-12"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
-                </svg>
+          <h2 className="text-4xl font-bold mb-8 text-green-800">Categories</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            <Link href="/products?category=tech" className="block">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden transition-transform hover:-translate-y-1 hover:shadow-md">
+                <div className="aspect-[4/3] relative">
+                  <Image
+                    src="/images/techaccessories.webp"
+                    alt="Tech Accessories"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="p-4">
+                  <h3 className="text-lg font-bold text-green-800 text-center min-h-[3.5rem] line-clamp-2">Tech Accessories</h3>
+                </div>
               </div>
-              <h3 className="text-xl font-bold mb-2">Better Prices</h3>
-              <p className="text-gray-600">
-                Get wholesale rates without needing to buy enormous quantities individually.
-              </p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="text-green-600 mb-4">
-                <svg
-                  className="w-12 h-12"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
-                </svg>
+            </Link>
+
+            <Link href="/products?category=room" className="block">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden transition-transform hover:-translate-y-1 hover:shadow-md">
+                <div className="aspect-[4/3] relative">
+                  <Image
+                    src="/images/roomaccessories.webp"
+                    alt="Room Accessories"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="p-4">
+                  <h3 className="text-lg font-bold text-green-800 text-center min-h-[3.5rem] line-clamp-2">Room Accessories</h3>
+                </div>
               </div>
-              <h3 className="text-xl font-bold mb-2">Community Power</h3>
-              <p className="text-gray-600">
-                Connect with others who want the same products and leverage the power of group buying.
-              </p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="text-green-600 mb-4">
-                <svg
-                  className="w-12 h-12"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
+            </Link>
+
+            <Link href="/products?category=lifestyle" className="block">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden transition-transform hover:-translate-y-1 hover:shadow-md">
+                <div className="aspect-[4/3] relative">
+                  <Image
+                    src="/images/lifestyle.jpg"
+                    alt="Lifestyle"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="p-4">
+                  <h3 className="text-lg font-bold text-green-800 text-center min-h-[3.5rem] line-clamp-2">Lifestyle</h3>
+                </div>
               </div>
-              <h3 className="text-xl font-bold mb-2">Reliable Delivery</h3>
-              <p className="text-gray-600">
-                All orders are tracked and delivered with care, ensuring your products arrive safely and on time.
-              </p>
-            </div>
+            </Link>
+
+            <Link href="/products?category=fashion" className="block">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden transition-transform hover:-translate-y-1 hover:shadow-md">
+                <div className="aspect-[4/3] relative">
+                  <Image
+                    src="/images/fashion.webp"
+                    alt="Fashion"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="p-4">
+                  <h3 className="text-lg font-bold text-green-800 text-center min-h-[3.5rem] line-clamp-2">Fashion</h3>
+                </div>
+              </div>
+            </Link>
+
+            <Link href="/products?category=stationery" className="block">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden transition-transform hover:-translate-y-1 hover:shadow-md">
+                <div className="aspect-[4/3] relative">
+                  <Image
+                    src="/images/stationary.webp"
+                    alt="Stationery"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="p-4">
+                  <h3 className="text-lg font-bold text-green-800 text-center min-h-[3.5rem] line-clamp-2">Stationery</h3>
+                </div>
+              </div>
+            </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Product Suggestions Section */}
+      <section className="py-16" style={{ backgroundColor: '#e8efee' }}>
+        <div className="container mx-auto px-4 max-w-3xl">
+          <h2 className="text-5xl font-bold mb-6 text-center text-green-800">Product Suggestions</h2>
+          <p className="mb-12 text-center text-base text-gray-700 max-w-2xl mx-auto">
+            We are constantly seeking to expand our product offerings and would appreciate your valuable input. If you have a product suggestion that you believe aligns with our community interest, fill the form below and we'll get back to you soon!
+          </p>
+          <form className="bg-white rounded-lg shadow-sm p-8 space-y-6">
+            <div>
+              <label htmlFor="suggestion-name" className="block mb-2 text-gray-700 text-base">Your Name</label>
+              <input 
+                id="suggestion-name" 
+                type="text" 
+                className="w-full border border-gray-300 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-black"
+              />
+            </div>
+            <div>
+              <label htmlFor="suggestion-phone" className="block mb-2 text-gray-700 text-base">Phone Number</label>
+              <input 
+                id="suggestion-phone" 
+                type="tel" 
+                defaultValue="+91" 
+                className="w-full border border-gray-300 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-black"
+              />
+            </div>
+            <div>
+              <label htmlFor="suggestion-email" className="block mb-2 text-gray-700 text-base">Email Id</label>
+              <input 
+                id="suggestion-email" 
+                type="email" 
+                className="w-full border border-gray-300 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-black"
+              />
+            </div>
+            <div>
+              <label htmlFor="suggestion-product-name" className="block mb-2 text-gray-700 text-base">Product Name</label>
+              <input 
+                id="suggestion-product-name" 
+                type="text" 
+                className="w-full border border-gray-300 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-black"
+              />
+            </div>
+            <div>
+              <label htmlFor="suggestion-product-link" className="block mb-2 text-gray-700 text-base">Product Link</label>
+              <input 
+                id="suggestion-product-link" 
+                type="url" 
+                className="w-full border border-gray-300 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-black"
+              />
+            </div>
+            <div className="flex justify-center pt-4">
+              <button 
+                type="submit" 
+                className="bg-green-800 text-white py-2.5 px-10 rounded-lg font-semibold text-base hover:bg-green-900 transition"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
         </div>
       </section>
 
