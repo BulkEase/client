@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { authAPI, User } from './api';
+import { authAPI, User, setAuthToken } from './api';
 
 interface UserRegistrationData {
   name: string;
@@ -30,11 +30,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
-  // Check if user is logged in
+  // Safely access localStorage after mount
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
+    const storedToken = localStorage.getItem('token');
+    setToken(storedToken);
+    setAuthToken(storedToken);
+    if (storedToken) {
       fetchUserProfile();
     } else {
       setIsLoading(false);
@@ -48,8 +51,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(response.data);
       setError(null);
     } catch (err) {
-      // If token is invalid, clear it
       localStorage.removeItem('token');
+      setToken(null);
+      setAuthToken(null);
       setUser(null);
       setError('Session expired. Please login again.');
     } finally {
@@ -62,6 +66,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setIsLoading(true);
       const response = await authAPI.login(email, password);
       localStorage.setItem('token', response.data.token);
+      setToken(response.data.token);
+      setAuthToken(response.data.token);
       setUser(response.data.user);
       setError(null);
     } catch (err: any) {
@@ -77,6 +83,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setIsLoading(true);
       const response = await authAPI.register(userData);
       localStorage.setItem('token', response.data.token);
+      setToken(response.data.token);
+      setAuthToken(response.data.token);
       setUser(response.data.user);
       setError(null);
     } catch (err: any) {
@@ -89,6 +97,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
+    setToken(null);
+    setAuthToken(null);
     setUser(null);
   };
 

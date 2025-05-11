@@ -122,7 +122,7 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-green-700">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-300 text-sm">
-              © {new Date().getFullYear()} BulkEase. All rights reserved.
+              © 2024 BulkEase. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <Link href="/privacy" className="text-gray-300 hover:text-white text-sm transition">

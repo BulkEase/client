@@ -10,12 +10,18 @@ const api = axios.create({
   },
 });
 
+let authToken: string | null = null;
+
+// Function to set the auth token
+export const setAuthToken = (token: string | null) => {
+  authToken = token;
+};
+
 // Add a request interceptor to include auth token
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    if (authToken) {
+      config.headers.Authorization = `Bearer ${authToken}`;
     }
     return config;
   },
@@ -30,13 +36,25 @@ export interface User {
   role: 'user' | 'admin';
 }
 
+export interface ProductImage {
+  url: string;
+  publicId: string;
+}
+
 export interface Product {
   _id: string;
-  name: string;
-  description: string;
-  category: string;
-  imageUrl?: string;
-  price: number;
+  productName: string;
+  productDescription: string;
+  productImage: ProductImage;
+  currentPrice: number;
+  content: string;
+  stars: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ProductsResponse {
+  products: Product[];
 }
 
 export interface Price {
@@ -73,8 +91,8 @@ export const authAPI = {
 
 // API functions for products
 export const productsAPI = {
-  getAll: () => api.get('/products'),
-  getById: (id: string) => api.get(`/products/${id}`),
+  getAll: () => api.get<ProductsResponse>('/products'),
+  getById: (id: string) => api.get<Product>(`/products/${id}`),
   create: (productData: Omit<Product, '_id'>) => 
     api.post('/products', productData),
   update: (id: string, productData: Partial<Product>) => 
