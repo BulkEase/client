@@ -3,16 +3,38 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Product, productsAPI } from '@/lib/api';
+import { Product, productsAPI, authAPI, pricesAPI, Price } from '@/lib/api';
 import ProductCard from '@/components/products/ProductCard';
 
 export default function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [newProduct, setNewProduct] = useState({
+    productName: '',
+    productDescription: '',
+    currentPrice: 0,
+    content: '',
+    stars: 0,
+  });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [singleProduct, setSingleProduct] = useState<Product | null>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [prices, setPrices] = useState<Record<string, Price>>({});
 
   useEffect(() => {
     fetchFeaturedProducts();
+    pricesAPI.getAll().then(res => {
+      const pricesMap: Record<string, Price> = {};
+      res.data.prices.forEach((price: Price) => {
+        pricesMap[price.product] = price;
+      });
+      setPrices(pricesMap);
+    });
+    // Fetch user profile to get the role
+    authAPI.getProfile()
+      .then(res => setUserRole(res.data.role))
+      .catch(() => setUserRole(null)); // Not logged in or error
   }, []);
 
   const fetchFeaturedProducts = async () => {
@@ -29,6 +51,32 @@ export default function HomePage() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const createProduct = () => {
+    if (!imageFile) {
+      setError('Image is required');
+      return;
+    }
+    productsAPI.create(newProduct as any, imageFile)
+      .then(res => {
+        setFeaturedProducts(prev => [...prev, res.data]);
+        setNewProduct({
+          productName: '',
+          productDescription: '',
+          currentPrice: 0,
+          content: '',
+          stars: 0,
+        });
+        setImageFile(null);
+      })
+      .catch(err => setError(err.response?.data?.message || 'Failed to create product'));
+  };
+
+  const fetchProductById = (id: string) => {
+    productsAPI.getById(id)
+      .then(res => setSingleProduct(res.data))
+      .catch(err => setError(err.response?.data?.message || 'Failed to fetch product'));
   };
 
   return (
@@ -119,12 +167,67 @@ export default function HomePage() {
             </div>
           ) : (
             <>
+              {userRole === 'admin' && (
+                <>
+                  <h2 className="text-xl font-bold mb-4">Create Product</h2>
+                  <div className="mb-8 flex flex-col gap-2 bg-gray-50 p-4 rounded shadow">
+                    <input
+                      value={newProduct.productName}
+                      onChange={e => setNewProduct({ ...newProduct, productName: e.target.value })}
+                      placeholder="Product Name"
+                      className="p-2 border rounded"
+                    />
+                    <input
+                      value={newProduct.productDescription}
+                      onChange={e => setNewProduct({ ...newProduct, productDescription: e.target.value })}
+                      placeholder="Description"
+                      className="p-2 border rounded"
+                    />
+                    <input
+                      type="number"
+                      value={newProduct.currentPrice}
+                      onChange={e => setNewProduct({ ...newProduct, currentPrice: Number(e.target.value) })}
+                      placeholder="Current Price"
+                      className="p-2 border rounded"
+                    />
+                    <input
+                      value={newProduct.content}
+                      onChange={e => setNewProduct({ ...newProduct, content: e.target.value })}
+                      placeholder="Content"
+                      className="p-2 border rounded"
+                    />
+                    <input
+                      type="number"
+                      value={newProduct.stars}
+                      onChange={e => setNewProduct({ ...newProduct, stars: Number(e.target.value) })}
+                      placeholder="Stars"
+                      min={0}
+                      max={5}
+                      className="p-2 border rounded"
+                    />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={e => setImageFile(e.target.files?.[0] || null)}
+                      className="p-2"
+                    />
+                    <button onClick={createProduct} className="bg-green-700 text-white py-2 px-4 rounded hover:bg-green-800">
+                      Create
+                    </button>
+                  </div>
+                </>
+              )}
+              
               {featuredProducts.length === 0 ? (
                 <p className="text-center py-8">No products available at the moment.</p>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {featuredProducts.map(product => (
-                    <ProductCard key={product._id} product={product} />
+                    <ProductCard
+                      key={product._id}
+                      product={product}
+                      price={prices[product._id]}
+                    />
                   ))}
                 </div>
               )}
@@ -229,6 +332,19 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {singleProduct && (
+        <div className="mt-8 p-4 bg-white rounded shadow">
+          <h3 className="text-lg font-bold mb-2">Product Details</h3>
+          <p><strong>Name:</strong> {singleProduct.productName}</p>
+          <p><strong>Description:</strong> {singleProduct.productDescription}</p>
+          <p><strong>Price:</strong> {singleProduct.currentPrice}</p>
+          <p><strong>Content:</strong> {singleProduct.content}</p>
+          <p><strong>Stars:</strong> {singleProduct.stars}</p>
+          <img src={singleProduct.productImage?.url} alt={singleProduct.productName} className="w-32 h-32 object-cover mt-2" />
+          <button onClick={() => setSingleProduct(null)} className="mt-2 text-red-600">Close</button>
+        </div>
+      )}
     </div>
   );
 }
