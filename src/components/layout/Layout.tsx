@@ -40,7 +40,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             </div>
           </div>
           <div className="border-t border-green-700 mt-8 pt-6 text-center">
-            <p>© {new Date().getFullYear()} BulkEase. All rights reserved.</p>
+            <p>© 2024 BulkEase. All rights reserved.</p>
           </div>
         </div>
       </footer>
