@@ -57,12 +57,18 @@ export interface ProductsResponse {
   products: Product[];
 }
 
+export interface PriceRange {
+  minQuantity: number;
+  maxQuantity: number;
+  price: number;
+}
+
 export interface Price {
   _id: string;
   product: string;
-  amount: number;
-  currency: string;
-  unit: string;
+  priceRanges: PriceRange[];
+  isActive: boolean;
+  createdAt: string;
 }
 
 export interface CartItem {
@@ -93,8 +99,18 @@ export const authAPI = {
 export const productsAPI = {
   getAll: () => api.get<ProductsResponse>('/products'),
   getById: (id: string) => api.get<Product>(`/products/${id}`),
-  create: (productData: Omit<Product, '_id'>) => 
-    api.post('/products', productData),
+  create: (productData: Omit<Product, '_id' | 'createdAt' | 'updatedAt'>, imageFile: File) => {
+    const formData = new FormData();
+    formData.append('image', imageFile);
+    Object.entries(productData).forEach(([key, value]) => {
+      formData.append(key, value.toString());
+    });
+    return api.post<Product>('/products', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
   update: (id: string, productData: Partial<Product>) => 
     api.put(`/products/${id}`, productData),
   delete: (id: string) => api.delete(`/products/${id}`),
@@ -102,14 +118,28 @@ export const productsAPI = {
 
 // API functions for prices
 export const pricesAPI = {
-  getAll: () => api.get('/prices'),
-  getById: (id: string) => api.get(`/prices/${id}`),
-  getByProduct: (productId: string) => api.get(`/prices/product/${productId}`),
-  create: (priceData: Omit<Price, '_id'>) => 
-    api.post('/prices', priceData),
-  update: (id: string, priceData: Partial<Price>) => 
-    api.put(`/prices/${id}`, priceData),
-  delete: (id: string) => api.delete(`/prices/${id}`),
+  // Get all prices (Admin only)
+  getAll: () => api.get<{ prices: Price[] }>('/prices'),
+
+  // Create a new price (Admin only)
+  create: (priceData: Omit<Price, '_id' | 'createdAt'>) =>
+    api.post<{ price: Price; message: string }>('/prices', priceData),
+
+  // Update price by ID (Admin only)
+  update: (id: string, priceData: Partial<Omit<Price, '_id' | 'createdAt'>>) =>
+    api.put<{ price: Price; message: string }>(`/prices/${id}`, priceData),
+
+  // Delete price by ID (Admin only)
+  delete: (id: string) =>
+    api.delete<{ message: string }>(`/prices/${id}`),
+
+  // Get price by product ID
+  getByProduct: (productId: string) =>
+    api.get<{ price: Price }>(`/prices/product/${productId}`),
+
+  // Calculate price for product based on booking count
+  calculate: (productId: string, bookingCount: number) =>
+    api.get<{ price: number }>(`/prices/calculate/${productId}?bookingCount=${bookingCount}`),
 };
 
 // API functions for cart
