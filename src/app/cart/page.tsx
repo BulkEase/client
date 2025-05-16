@@ -62,9 +62,9 @@ export default function CartPage() {
   };
 
   const getProductName = (item: CartItem): string => {
-    return typeof item.product === 'string' 
-      ? 'Loading...' 
-      : item.product.name;
+    return typeof item.product === 'string'
+      ? 'Loading...'
+      : item.product.name || item.product.productName || 'Product';
   };
 
   const getItemTotal = (item: CartItem): number => {
@@ -130,11 +130,11 @@ export default function CartPage() {
                         <li key={item._id} className="p-4 sm:p-6">
                           <div className="flex flex-col sm:flex-row">
                             <div className="flex-shrink-0 mb-4 sm:mb-0 sm:mr-4">
-                              {typeof item.product !== 'string' && item.product.imageUrl ? (
+                              {typeof item.product !== 'string' && item.product.productImage?.url ? (
                                 <div className="relative w-24 h-24">
                                   <Image
-                                    src={item.product.imageUrl}
-                                    alt={item.product.name}
+                                    src={item.product.productImage.url || '/placeholder.png'}
+                                    alt={String(item.product.name || item.product.productName || 'Product image')}
                                     fill
                                     className="object-cover rounded-md"
                                   />

@@ -25,7 +25,13 @@ export default function ProductsPage() {
       const productsResponse = await productsAPI.getAll();
       console.log('Products response:', productsResponse);
       setApiResponse(productsResponse);
-      setProducts(productsResponse.data);
+      const productsArr = productsResponse.data.products.map((p: any) => ({
+        ...p,
+        name: p.name || p.productName,
+        description: p.description || p.productDescription,
+        category: p.category || p.content || '',
+      }));
+      setProducts(productsArr);
       
       // Fetch all prices
       try {
@@ -60,8 +66,8 @@ export default function ProductsPage() {
   const filteredProducts = products.filter(product => {
     const matchesSearch = 
       searchTerm === '' || 
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.description.toLowerCase().includes(searchTerm.toLowerCase());
+      (product.name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+      (product.description?.toLowerCase() || '').includes(searchTerm.toLowerCase());
       
     const matchesCategory = 
       categoryFilter === '' || 

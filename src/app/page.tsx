@@ -281,7 +281,7 @@ export default function HomePage() {
           ) : (
             <div className="carousel-container">
               <Slider {...sliderSettings}>
-                {(featuredProducts.length > 0 ? featuredProducts : fakeProducts).map((product: DisplayProduct) => (
+                {(((featuredProducts || []).length > 0 ? featuredProducts : fakeProducts) as DisplayProduct[]).map((product: DisplayProduct) => (
                   <div key={isFakeProduct(product) ? product.id : product._id} className="px-2">
                     <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
                       <div className="w-full h-48 relative">
