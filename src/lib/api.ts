@@ -51,6 +51,9 @@ export interface Product {
   stars: number;
   createdAt: string;
   updatedAt: string;
+  name?: string;
+  description?: string;
+  category?: string;
 }
 
 export interface ProductsResponse {
