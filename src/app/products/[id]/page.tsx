@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { Product, Price, productsAPI, pricesAPI } from '@/lib/api';
-import { useCart } from '@/lib/cart-context';
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Product, Price, productsAPI, pricesAPI } from "@/lib/api";
+import { useCart } from "@/lib/cart-context";
 
 interface ProductDetailPageProps {
   params: {
@@ -16,7 +16,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   const { id } = params;
   const router = useRouter();
   const { addToCart, isLoading: isCartLoading } = useCart();
-  
+
   const [product, setProduct] = useState<Product | null>(null);
   const [price, setPrice] = useState<Price | null>(null);
   const [quantity, setQuantity] = useState(1);
@@ -33,29 +33,33 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   const fetchProductAndPrice = async (productId: string) => {
     try {
       setIsLoading(true);
-      
+
       // Fetch product details
       console.log(`Fetching product with ID: ${productId}`);
       const productResponse = await productsAPI.getById(productId);
-      console.log('Product response:', productResponse);
+      console.log("Product response:", productResponse);
       setApiResponse(productResponse);
       setProduct(productResponse.data);
-      
+
       // Fetch price for this product
       try {
         console.log(`Fetching price for product ID: ${productId}`);
         const priceResponse = await pricesAPI.getByProduct(productId);
-        console.log('Price response:', priceResponse);
+        console.log("Price response:", priceResponse);
         setPrice(priceResponse.data[0] || null);
       } catch (priceErr: any) {
-        console.error('Error fetching price:', priceErr);
+        console.error("Error fetching price:", priceErr);
         // We don't want to stop showing the product if price fetch fails
       }
-      
+
       setError(null);
     } catch (err: any) {
-      console.error('Error fetching product:', err);
-      setError(`Failed to fetch product details: ${err.response?.data?.message || err.message || 'Unknown error'}`);
+      console.error("Error fetching product:", err);
+      setError(
+        `Failed to fetch product details: ${
+          err.response?.data?.message || err.message || "Unknown error"
+        }`
+      );
       setApiResponse(err.response || err);
     } finally {
       setIsLoading(false);
@@ -64,13 +68,17 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
   const handleAddToCart = async () => {
     if (!product) return;
-    
+
     try {
       await addToCart(product._id, quantity);
-      router.push('/cart');
+      router.push("/cart");
     } catch (err: any) {
-      console.error('Failed to add to cart:', err);
-      setError(`Failed to add to cart: ${err.response?.data?.message || err.message || 'Unknown error'}`);
+      console.error("Failed to add to cart:", err);
+      setError(
+        `Failed to add to cart: ${
+          err.response?.data?.message || err.message || "Unknown error"
+        }`
+      );
     }
   };
 
@@ -87,7 +95,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
       <div className="p-6 py-12">
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
           <p className="font-bold">Error:</p>
-          <p>{error || 'Product not found'}</p>
+          <p>{error || "Product not found"}</p>
           {apiResponse && (
             <details className="mt-2">
               <summary className="cursor-pointer text-sm">Debug Info</summary>
@@ -99,7 +107,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
         </div>
         <div className="flex gap-4 mt-4">
           <button
-            onClick={() => router.push('/products')}
+            onClick={() => router.push("/products")}
             className="bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700 transition"
           >
             Back to Products
@@ -140,10 +148,10 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="relative h-80 md:h-full">
-          {product.imageUrl ? (
+          {product.productImage.url ? (
             <Image
-              src={product.imageUrl}
-              alt={product.name}
+              src={product.productImage.url}
+              alt={product.productName}
               fill
               className="object-contain"
             />
@@ -197,11 +205,11 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               disabled={isCartLoading}
               className="flex-grow bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition"
             >
-              {isCartLoading ? 'Adding to Cart...' : 'Add to Cart'}
+              {isCartLoading ? "Adding to Cart..." : "Add to Cart"}
             </button>
           </div>
         </div>
       </div>
     </div>
   );
-} 
+}
