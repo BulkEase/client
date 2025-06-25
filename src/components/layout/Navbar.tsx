@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useState } from 'react';
-import { useAuth } from '@/lib/auth-context';
-import { ShoppingCart, Search, Menu, X, Phone, User } from 'lucide-react';
-import { usePathname } from 'next/navigation';
-import SearchBar from '@/components/SearchBar';
+import Link from "next/link";
+import { useState } from "react";
+import { useAuth } from "@/lib/auth-context";
+import { ShoppingCart, Search, Menu, X, Phone, User } from "lucide-react";
+import { usePathname } from "next/navigation";
+import SearchBar from "@/components/SearchBar";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -33,26 +33,26 @@ export default function Navbar() {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-8">
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 className="text-white hover:text-green-200 transition"
               >
                 Home
               </Link>
-              <Link 
-                href="/products" 
+              <Link
+                href="/products"
                 className="text-white hover:text-green-200 transition"
               >
                 Shop
               </Link>
-              <Link 
-                href="/about" 
+              <Link
+                href="/about"
                 className="text-white hover:text-green-200 transition"
               >
                 About Us
               </Link>
-              <Link 
-                href="/contact" 
+              <Link
+                href="/contact"
                 className="text-white hover:text-green-200 transition"
               >
                 Contact Us
@@ -61,10 +61,13 @@ export default function Navbar() {
 
             {/* Right side icons */}
             <div className="hidden md:flex items-center space-x-4">
-              <Link href="/cart" className="hover:text-green-200 transition p-1">
+              <Link
+                href="/cart"
+                className="hover:text-green-200 transition p-1"
+              >
                 <ShoppingCart className="h-5 w-5" />
               </Link>
-              <button 
+              <button
                 className="hover:text-green-200 transition p-1"
                 onClick={() => setIsSearchOpen(true)}
               >
@@ -81,14 +84,20 @@ export default function Navbar() {
                     <span>{user.name}</span>
                   </button>
                   <div className="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded shadow-lg py-2 z-10 hidden group-hover:block">
-                    <Link href="/profile" className="block px-4 py-2 hover:bg-green-100">
+                    <Link
+                      href="/profile"
+                      className="block px-4 py-2 hover:bg-green-100"
+                    >
                       Profile
                     </Link>
-                    <Link href="/orders" className="block px-4 py-2 hover:bg-green-100">
+                    <Link
+                      href="/orders"
+                      className="block px-4 py-2 hover:bg-green-100"
+                    >
                       Orders
                     </Link>
-                    <button 
-                      onClick={handleLogout} 
+                    <button
+                      onClick={handleLogout}
                       className="block w-full text-left px-4 py-2 hover:bg-green-100"
                     >
                       Logout
@@ -97,14 +106,14 @@ export default function Navbar() {
                 </div>
               ) : (
                 <div className="flex items-center space-x-4">
-                  <Link 
-                    href="/login" 
+                  <Link
+                    href="/login"
                     className="text-white hover:text-green-200 transition"
                   >
                     Login
                   </Link>
-                  <Link 
-                    href="/register" 
+                  <Link
+                    href="/register"
                     className="bg-white text-green-800 px-4 py-2 rounded hover:bg-green-100 transition"
                   >
                     Sign Up
@@ -114,11 +123,15 @@ export default function Navbar() {
             </div>
 
             {/* Mobile menu button */}
-            <button 
+            <button
               className="md:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </button>
           </div>
 
@@ -126,29 +139,29 @@ export default function Navbar() {
           {isMenuOpen && (
             <div className="md:hidden mt-4 pb-4">
               <nav className="flex flex-col space-y-4">
-                <Link 
-                  href="/" 
+                <Link
+                  href="/"
                   className="text-white hover:text-green-200 transition"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Home
                 </Link>
-                <Link 
-                  href="/products" 
+                <Link
+                  href="/products"
                   className="text-white hover:text-green-200 transition"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Shop
                 </Link>
-                <Link 
-                  href="/about" 
+                <Link
+                  href="/about"
                   className="text-white hover:text-green-200 transition"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   About Us
                 </Link>
-                <Link 
-                  href="/contact" 
+                <Link
+                  href="/contact"
                   className="text-white hover:text-green-200 transition"
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -157,21 +170,21 @@ export default function Navbar() {
                 <div className="pt-4 border-t border-green-700">
                   {user ? (
                     <>
-                      <Link 
-                        href="/profile" 
+                      <Link
+                        href="/profile"
                         className="block py-2 hover:text-green-200 transition"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         Profile
                       </Link>
-                      <Link 
-                        href="/orders" 
+                      <Link
+                        href="/orders"
                         className="block py-2 hover:text-green-200 transition"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         Orders
                       </Link>
-                      <button 
+                      <button
                         onClick={handleLogout}
                         className="block w-full text-left py-2 hover:text-green-200 transition"
                       >
@@ -180,15 +193,15 @@ export default function Navbar() {
                     </>
                   ) : (
                     <div className="space-y-4">
-                      <Link 
-                        href="/login" 
+                      <Link
+                        href="/login"
                         className="block py-2 hover:text-green-200 transition"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         Login
                       </Link>
-                      <Link 
-                        href="/register" 
+                      <Link
+                        href="/register"
                         className="block bg-white text-green-800 px-4 py-2 rounded hover:bg-green-100 transition text-center"
                         onClick={() => setIsMenuOpen(false)}
                       >
@@ -196,8 +209,8 @@ export default function Navbar() {
                       </Link>
                     </div>
                   )}
-                  <Link 
-                    href="/cart" 
+                  <Link
+                    href="/cart"
                     className="flex items-center py-2 hover:text-green-200 transition mt-4"
                     onClick={() => setIsMenuOpen(false)}
                   >
@@ -210,12 +223,9 @@ export default function Navbar() {
           )}
         </div>
       </header>
-      
+
       {/* Search Bar */}
-      <SearchBar 
-        isOpen={isSearchOpen} 
-        onClose={() => setIsSearchOpen(false)} 
-      />
+      <SearchBar isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </>
   );
-} 
+}

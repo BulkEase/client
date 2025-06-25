@@ -1,662 +1,300 @@
-"use client";
-import React from "react";
+import { Metadata } from "next";
 
-const About: React.FC = () => {
+export const metadata: Metadata = {
+  title:
+    "About BulkEase - Community Group Buying Platform | Revolutionary Shopping Experience",
+  description:
+    "Discover how BulkEase transforms shopping through community-powered group buying. Our hook-and-capture model creates better prices, stronger communities, and smarter purchasing decisions.",
+  keywords:
+    "group buying, community shopping, bulk purchasing, collective buying power, better prices, BulkEase platform",
+  openGraph: {
+    title: "About BulkEase - Revolutionary Community Group Buying",
+    description:
+      "Learn how our innovative hook-and-capture model transforms shopping through collective buying power.",
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
+const About = () => {
   return (
-    <div
-      style={{
-        fontFamily:
-          'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-        background:
-          "linear-gradient(135deg, #fafafa 0%, #f8f6f4 50%, #f4f2f0 100%)",
-        minHeight: "100vh",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      {/* Texture overlay */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          backgroundImage: `
-          radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.03) 0%, transparent 50%),
-          radial-gradient(circle at 80% 20%, rgba(255, 206, 84, 0.03) 0%, transparent 50%),
-          radial-gradient(circle at 40% 80%, rgba(120, 119, 198, 0.03) 0%, transparent 50%)
-        `,
-          pointerEvents: "none",
-        }}
-      />
-
-      <div
-        style={{
-          position: "relative",
-          zIndex: 1,
-          maxWidth: "1200px",
-          margin: "0 auto",
-          padding: "0 2rem",
-        }}
-      >
-        {/* Hero Section */}
-        <section
-          style={{
-            textAlign: "center",
-            padding: "6rem 0 4rem",
-            background:
-              "linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(248,246,244,0.9) 100%)",
-            borderRadius: "0 0 2rem 2rem",
-            marginBottom: "4rem",
-            boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
-          }}
+    <div className="min-h-screen bg-white font-sans antialiased">
+      {/* Video Hero Section */}
+      <section className="relative h-screen overflow-hidden">
+        {/* Background Video */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ filter: "brightness(0.4)" }}
         >
-          <h1
-            style={{
-              fontSize: "clamp(2.5rem, 5vw, 4rem)",
-              fontWeight: "800",
-              background: "linear-gradient(135deg, #2c3e50 0%, #3498db 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              marginBottom: "1.5rem",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            Welcome to BulkEase
-          </h1>
-          <p
-            style={{
-              fontSize: "1.25rem",
-              color: "#5a6c7d",
-              maxWidth: "600px",
-              margin: "0 auto",
-              lineHeight: "1.6",
-            }}
-          >
-            Revolutionizing shopping through community-powered group buying.
-            Better prices, stronger communities, smarter purchasing.
-          </p>
-        </section>
-
-        {/* Our Story Section */}
-        <section
+          <source src="/videos/video_temp.mp4" type="video/mp4" />
+        </video>
+        {/* Fallback Image
+        <div
+          className="absolute inset-0 w-full h-full bg-cover bg-center bg-gray-900"
           style={{
-            padding: "4rem 0",
-            textAlign: "center",
+            backgroundImage: "url(/images/hero-fallback.jpg)",
+            filter: "brightness(0.4)",
           }}
-        >
-          <h2
-            style={{
-              fontSize: "2.5rem",
-              fontWeight: "700",
-              color: "#2c3e50",
-              marginBottom: "2rem",
-            }}
-          >
-            Our Story
-          </h2>
-          <div
-            style={{
-              background: "rgba(255,255,255,0.7)",
-              padding: "3rem",
-              borderRadius: "1.5rem",
-              boxShadow: "0 12px 40px rgba(0,0,0,0.08)",
-              backdropFilter: "blur(10px)",
-              border: "1px solid rgba(255,255,255,0.2)",
-            }}
-          >
-            <p
-              style={{
-                fontSize: "1.125rem",
-                color: "#4a5568",
-                lineHeight: "1.8",
-                maxWidth: "800px",
-                margin: "0 auto",
-              }}
-            >
-              BulkEase was born from a simple yet powerful idea: what if
-              communities could come together to unlock better prices through
-              collective buying power? Our innovative hook-and-capture model
-              transforms how people shop by creating a hierarchy of selling that
-              benefits everyone involved.
+        /> */}
+        {/* Content Overlay */}
+        <div className="relative z-10 flex items-center justify-center h-full">
+          <div className="text-center text-white max-w-4xl px-6">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+              About BulkEase
+            </h1>
+            <p className="text-xl md:text-2xl font-light leading-relaxed opacity-90">
+              Transforming commerce through intelligent community-driven group
+              buying
             </p>
           </div>
-        </section>
+        </div>
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white opacity-70">
+          <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-white rounded-full mt-2 animate-bounce" />
+          </div>
+        </div>
+      </section>
 
-        {/* Process Flow Section */}
-        <section
-          style={{
-            padding: "4rem 0",
-          }}
-        >
-          <h2
-            style={{
-              fontSize: "2.5rem",
-              fontWeight: "700",
-              color: "#2c3e50",
-              textAlign: "center",
-              marginBottom: "3rem",
-            }}
-          >
-            How We Make It Happen
+      {/* Company Overview */}
+      <section className="py-20 bg-white">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-8">
+              Company Overview
+            </h2>
+            <div className="w-24 h-1 bg-gray-900 mx-auto mb-8" />
+          </div>
+
+          <div className="prose prose-lg max-w-none text-gray-700 leading-8">
+            <p className="text-xl mb-8">
+              BulkEase represents a paradigm shift in commercial procurement,
+              leveraging collective purchasing power to deliver unprecedented
+              value to communities worldwide. Our proprietary methodology
+              transforms traditional market dynamics through strategic
+              collaboration and intelligent demand aggregation.
+            </p>
+
+            <p className="mb-8">
+              Founded on the principle that collective action yields superior
+              outcomes, BulkEase has established itself as the premier platform
+              for community-driven group buying. We serve as the bridge between
+              individual consumers and wholesale markets, creating opportunities
+              that were previously accessible only to large-scale buyers.
+            </p>
+
+            <p>
+              Our commitment to transparency, efficiency, and community
+              empowerment drives every aspect of our operations. Through
+              rigorous market analysis and strategic partnerships, we
+              consistently deliver cost savings of 20-50% while maintaining the
+              highest standards of product quality and service excellence.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission & Vision */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-16">
+            <div>
+              <h3 className="text-3xl font-bold text-gray-900 mb-6">
+                Our Mission
+              </h3>
+              <div className="w-16 h-1 bg-gray-900 mb-6" />
+              <p className="text-lg text-gray-700 leading-8">
+                To democratize access to wholesale pricing through innovative
+                community-driven purchasing solutions, empowering individuals
+                and organizations to achieve superior economic outcomes while
+                fostering sustainable commercial relationships.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-3xl font-bold text-gray-900 mb-6">
+                Our Vision
+              </h3>
+              <div className="w-16 h-1 bg-gray-900 mb-6" />
+              <p className="text-lg text-gray-700 leading-8">
+                To establish the global standard for collaborative commerce,
+                creating a world where collective purchasing power eliminates
+                traditional barriers to value, enabling communities to access
+                premium products and services at unprecedented prices.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Strategic Framework */}
+      <section className="py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-8">
+              Strategic Framework
+            </h2>
+            <div className="w-24 h-1 bg-gray-900 mx-auto mb-8" />
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Our systematic approach to market transformation through the
+              proprietary hook-and-capture methodology
+            </p>
+          </div>
+
+          <div className="space-y-16">
+            {/* Phase 1 */}
+            <div className="border-l-4 border-gray-900 pl-8">
+              <div className="flex items-center mb-4">
+                <span className="text-2xl font-bold text-gray-400 mr-4">
+                  01
+                </span>
+                <h3 className="text-2xl font-bold text-gray-900">
+                  Strategic Market Engagement
+                </h3>
+              </div>
+              <p className="text-lg text-gray-700 leading-8">
+                We identify and engage target communities through comprehensive
+                market analysis, demonstrating the transformative potential of
+                collective purchasing power and establishing initial interest in
+                collaborative procurement opportunities.
+              </p>
+            </div>
+
+            {/* Phase 2 */}
+            <div className="border-l-4 border-gray-900 pl-8">
+              <div className="flex items-center mb-4">
+                <span className="text-2xl font-bold text-gray-400 mr-4">
+                  02
+                </span>
+                <h3 className="text-2xl font-bold text-gray-900">
+                  Demand Capture & Aggregation
+                </h3>
+              </div>
+              <p className="text-lg text-gray-700 leading-8">
+                Through strategic community engagement and validated interest
+                assessment, we systematically capture and aggregate authentic
+                market demand, creating substantial purchasing volumes that
+                enable advantageous supplier negotiations.
+              </p>
+            </div>
+
+            {/* Phase 3 */}
+            <div className="border-l-4 border-gray-900 pl-8">
+              <div className="flex items-center mb-4">
+                <span className="text-2xl font-bold text-gray-400 mr-4">
+                  03
+                </span>
+                <h3 className="text-2xl font-bold text-gray-900">
+                  Hierarchical Optimization
+                </h3>
+              </div>
+              <p className="text-lg text-gray-700 leading-8">
+                Leveraging aggregated demand intelligence, we implement
+                sophisticated selling hierarchies that optimize supply chain
+                efficiency, pricing structures, and value distribution across
+                our entire ecosystem of participants.
+              </p>
+            </div>
+
+            {/* Phase 4 */}
+            <div className="border-l-4 border-gray-900 pl-8">
+              <div className="flex items-center mb-4">
+                <span className="text-2xl font-bold text-gray-400 mr-4">
+                  04
+                </span>
+                <h3 className="text-2xl font-bold text-gray-900">
+                  Value Realization & Distribution
+                </h3>
+              </div>
+              <p className="text-lg text-gray-700 leading-8">
+                Community members realize substantial cost savings, exclusive
+                market access, and priority product availability while
+                participating in a transparent, efficient, and sustainable
+                collaborative commerce ecosystem.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Core Values */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-8">
+              Core Values
+            </h2>
+            <div className="w-24 h-1 bg-gray-900 mx-auto" />
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-12">
+            <div className="text-center">
+              <h3 className="text-xl font-bold text-gray-900 mb-4">
+                Transparency
+              </h3>
+              <p className="text-gray-700 leading-7">
+                Complete visibility into pricing structures, supplier
+                relationships, and operational processes ensures informed
+                decision-making for all community members.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <h3 className="text-xl font-bold text-gray-900 mb-4">
+                Integrity
+              </h3>
+              <p className="text-gray-700 leading-7">
+                Unwavering commitment to ethical business practices, honest
+                communication, and fair value distribution across all
+                stakeholder relationships.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <h3 className="text-xl font-bold text-gray-900 mb-4">
+                Innovation
+              </h3>
+              <p className="text-gray-700 leading-7">
+                Continuous advancement of collaborative commerce methodologies
+                through technology integration and strategic process
+                optimization.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Leadership Statement */}
+      <section className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-4xl font-bold text-gray-900 mb-8">
+            Leadership Statement
           </h2>
+          <div className="w-24 h-1 bg-gray-900 mx-auto mb-12" />
 
-          {/* Step 1: Hook */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "4rem",
-              flexWrap: "wrap",
-              gap: "2rem",
-            }}
-          >
-            <div
-              style={{
-                flex: "1",
-                minWidth: "300px",
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                color: "white",
-                padding: "3rem",
-                borderRadius: "1.5rem",
-                boxShadow: "0 15px 35px rgba(102, 126, 234, 0.3)",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "3rem",
-                  fontWeight: "800",
-                  marginBottom: "1rem",
-                  opacity: "0.9",
-                }}
-              >
-                01
-              </div>
-              <h3
-                style={{
-                  fontSize: "1.75rem",
-                  fontWeight: "700",
-                  marginBottom: "1rem",
-                }}
-              >
-                Hook: Attract & Engage
-              </h3>
-              <p
-                style={{
-                  fontSize: "1.125rem",
-                  lineHeight: "1.6",
-                  opacity: "0.95",
-                }}
-              >
-                We showcase the incredible potential of group buying,
-                demonstrating how community collaboration leads to significant
-                savings and exclusive deals you can't find elsewhere.
-              </p>
-            </div>
-            <div
-              style={{
-                flex: "1",
-                minWidth: "300px",
-                textAlign: "center",
-              }}
-            >
-              <div
-                style={{
-                  width: "200px",
-                  height: "200px",
-                  background:
-                    "linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%)",
-                  borderRadius: "50%",
-                  margin: "0 auto",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "4rem",
-                  boxShadow: "0 15px 35px rgba(255, 234, 167, 0.4)",
-                }}
-              >
-                🎯
-              </div>
-            </div>
+          <blockquote className="text-xl text-gray-700 leading-9 italic mb-8">
+            "BulkEase represents more than a platform—it embodies a fundamental
+            shift toward collaborative commerce that benefits entire
+            communities. Our commitment extends beyond cost savings to creating
+            sustainable economic opportunities that empower individuals and
+            organizations to achieve their goals through collective action."
+          </blockquote>
+
+          <div className="border-t border-gray-200 pt-8">
+            <p className="text-lg font-semibold text-gray-900">
+              Executive Leadership Team
+            </p>
+            <p className="text-gray-600">BulkEase Corporation</p>
           </div>
-
-          {/* Step 2: Capture */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "4rem",
-              flexWrap: "wrap",
-              gap: "2rem",
-              flexDirection: "row-reverse",
-            }}
-          >
-            <div
-              style={{
-                flex: "1",
-                minWidth: "300px",
-                background: "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)",
-                color: "white",
-                padding: "3rem",
-                borderRadius: "1.5rem",
-                boxShadow: "0 15px 35px rgba(17, 153, 142, 0.3)",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "3rem",
-                  fontWeight: "800",
-                  marginBottom: "1rem",
-                  opacity: "0.9",
-                }}
-              >
-                02
-              </div>
-              <h3
-                style={{
-                  fontSize: "1.75rem",
-                  fontWeight: "700",
-                  marginBottom: "1rem",
-                }}
-              >
-                Capture: Build Demand
-              </h3>
-              <p
-                style={{
-                  fontSize: "1.125rem",
-                  lineHeight: "1.6",
-                  opacity: "0.95",
-                }}
-              >
-                We capture genuine demand by encouraging community members to
-                commit to purchases, creating a solid foundation for negotiating
-                better deals with suppliers.
-              </p>
-            </div>
-            <div
-              style={{
-                flex: "1",
-                minWidth: "300px",
-                textAlign: "center",
-              }}
-            >
-              <div
-                style={{
-                  width: "200px",
-                  height: "200px",
-                  background:
-                    "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
-                  borderRadius: "50%",
-                  margin: "0 auto",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "4rem",
-                  boxShadow: "0 15px 35px rgba(168, 237, 234, 0.4)",
-                }}
-              >
-                📊
-              </div>
-            </div>
-          </div>
-
-          {/* Step 3: Hierarchy */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "4rem",
-              flexWrap: "wrap",
-              gap: "2rem",
-            }}
-          >
-            <div
-              style={{
-                flex: "1",
-                minWidth: "300px",
-                background: "linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)",
-                color: "#2c3e50",
-                padding: "3rem",
-                borderRadius: "1.5rem",
-                boxShadow: "0 15px 35px rgba(255, 154, 158, 0.3)",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "3rem",
-                  fontWeight: "800",
-                  marginBottom: "1rem",
-                  opacity: "0.8",
-                }}
-              >
-                03
-              </div>
-              <h3
-                style={{
-                  fontSize: "1.75rem",
-                  fontWeight: "700",
-                  marginBottom: "1rem",
-                }}
-              >
-                Hierarchy: Optimize Selling
-              </h3>
-              <p
-                style={{
-                  fontSize: "1.125rem",
-                  lineHeight: "1.6",
-                  opacity: "0.9",
-                }}
-              >
-                Based on captured demand, we move through strategic selling
-                stages, optimizing pricing structures and supply chain
-                efficiency to maximize savings for everyone.
-              </p>
-            </div>
-            <div
-              style={{
-                flex: "1",
-                minWidth: "300px",
-                textAlign: "center",
-              }}
-            >
-              <div
-                style={{
-                  width: "200px",
-                  height: "200px",
-                  background:
-                    "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)",
-                  borderRadius: "50%",
-                  margin: "0 auto",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "4rem",
-                  boxShadow: "0 15px 35px rgba(255, 236, 210, 0.4)",
-                }}
-              >
-                ⚡
-              </div>
-            </div>
-          </div>
-
-          {/* Step 4: Community Benefits */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "4rem",
-              flexWrap: "wrap",
-              gap: "2rem",
-              flexDirection: "row-reverse",
-            }}
-          >
-            <div
-              style={{
-                flex: "1",
-                minWidth: "300px",
-                background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-                color: "white",
-                padding: "3rem",
-                borderRadius: "1.5rem",
-                boxShadow: "0 15px 35px rgba(79, 172, 254, 0.3)",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "3rem",
-                  fontWeight: "800",
-                  marginBottom: "1rem",
-                  opacity: "0.9",
-                }}
-              >
-                04
-              </div>
-              <h3
-                style={{
-                  fontSize: "1.75rem",
-                  fontWeight: "700",
-                  marginBottom: "1rem",
-                }}
-              >
-                Deliver: Community Benefits
-              </h3>
-              <p
-                style={{
-                  fontSize: "1.125rem",
-                  lineHeight: "1.6",
-                  opacity: "0.95",
-                }}
-              >
-                Members enjoy significantly lower prices, exclusive deals, early
-                access to products, and the satisfaction of being part of a
-                smart shopping community.
-              </p>
-            </div>
-            <div
-              style={{
-                flex: "1",
-                minWidth: "300px",
-                textAlign: "center",
-              }}
-            >
-              <div
-                style={{
-                  width: "200px",
-                  height: "200px",
-                  background:
-                    "linear-gradient(135deg, #96fbc4 0%, #f9f586 100%)",
-                  borderRadius: "50%",
-                  margin: "0 auto",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "4rem",
-                  boxShadow: "0 15px 35px rgba(150, 251, 196, 0.4)",
-                }}
-              >
-                🎉
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Benefits Section */}
-        <section
-          style={{
-            padding: "4rem 0",
-            background:
-              "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,246,244,0.9) 100%)",
-            borderRadius: "2rem",
-            margin: "4rem 0",
-            boxShadow: "0 20px 60px rgba(0,0,0,0.1)",
-          }}
-        >
-          <h2
-            style={{
-              fontSize: "2.5rem",
-              fontWeight: "700",
-              color: "#2c3e50",
-              textAlign: "center",
-              marginBottom: "3rem",
-            }}
-          >
-            Why Join Our Community?
-          </h2>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-              gap: "2rem",
-              padding: "0 2rem",
-            }}
-          >
-            <div
-              style={{
-                textAlign: "center",
-                padding: "2rem",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "3rem",
-                  marginBottom: "1rem",
-                }}
-              >
-                💰
-              </div>
-              <h3
-                style={{
-                  fontSize: "1.5rem",
-                  fontWeight: "600",
-                  color: "#2c3e50",
-                  marginBottom: "1rem",
-                }}
-              >
-                Better Prices
-              </h3>
-              <p
-                style={{
-                  color: "#5a6c7d",
-                  lineHeight: "1.6",
-                }}
-              >
-                Save 20-50% on regular retail prices through our collective
-                buying power
-              </p>
-            </div>
-
-            <div
-              style={{
-                textAlign: "center",
-                padding: "2rem",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "3rem",
-                  marginBottom: "1rem",
-                }}
-              >
-                🤝
-              </div>
-              <h3
-                style={{
-                  fontSize: "1.5rem",
-                  fontWeight: "600",
-                  color: "#2c3e50",
-                  marginBottom: "1rem",
-                }}
-              >
-                Strong Community
-              </h3>
-              <p
-                style={{
-                  color: "#5a6c7d",
-                  lineHeight: "1.6",
-                }}
-              >
-                Connect with like-minded shoppers who value smart purchasing
-                decisions
-              </p>
-            </div>
-
-            <div
-              style={{
-                textAlign: "center",
-                padding: "2rem",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "3rem",
-                  marginBottom: "1rem",
-                }}
-              >
-                🎯
-              </div>
-              <h3
-                style={{
-                  fontSize: "1.5rem",
-                  fontWeight: "600",
-                  color: "#2c3e50",
-                  marginBottom: "1rem",
-                }}
-              >
-                Exclusive Access
-              </h3>
-              <p
-                style={{
-                  color: "#5a6c7d",
-                  lineHeight: "1.6",
-                }}
-              >
-                Get early access to deals and products not available to
-                individual buyers
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Call to Action */}
-        <section
-          style={{
-            textAlign: "center",
-            padding: "4rem 0 6rem",
-          }}
-        >
-          <h2
-            style={{
-              fontSize: "2.5rem",
-              fontWeight: "700",
-              color: "#2c3e50",
-              marginBottom: "1.5rem",
-            }}
-          >
-            Ready to Start Saving?
-          </h2>
-          <p
-            style={{
-              fontSize: "1.25rem",
-              color: "#5a6c7d",
-              marginBottom: "2rem",
-              maxWidth: "600px",
-              margin: "0 auto 2rem",
-            }}
-          >
-            Join thousands of smart shoppers who have already discovered the
-            power of community buying
-          </p>
-          <button
-            style={{
-              background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-              color: "white",
-              padding: "1rem 2.5rem",
-              fontSize: "1.125rem",
-              fontWeight: "600",
-              border: "none",
-              borderRadius: "50px",
-              cursor: "pointer",
-              boxShadow: "0 10px 30px rgba(102, 126, 234, 0.4)",
-              transition: "all 0.3s ease",
-              transform: "translateY(0)",
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.transform = "translateY(-2px)";
-              e.currentTarget.style.boxShadow =
-                "0 15px 40px rgba(102, 126, 234, 0.5)";
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow =
-                "0 10px 30px rgba(102, 126, 234, 0.4)";
-            }}
-          >
-            Join BulkEase Today
-          </button>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
   );
 };
