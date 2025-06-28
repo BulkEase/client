@@ -40,12 +40,12 @@ export default function BatchesPage() {
       
       // Create a map of product ID to product
       const productsMap: Record<string, Product> = {};
-      productsResponse.data.forEach((product: Product) => {
+      productsResponse.data.products.forEach((product: Product) => {
         productsMap[product._id] = product;
       });
       
       setProducts(productsMap);
-      setAvailableProducts(productsResponse.data);
+      setAvailableProducts(productsResponse.data.products);
       setError(null);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to fetch batches');
@@ -167,7 +167,7 @@ export default function BatchesPage() {
                       className="mr-2"
                     />
                     <label htmlFor={`product-${product._id}`}>
-                      {product.name}
+                      {product.productName}
                     </label>
                   </div>
                 ))}
@@ -226,7 +226,7 @@ export default function BatchesPage() {
                         const product = products[typeof productId === 'string' ? productId : productId._id];
                         return (
                           <li key={typeof productId === 'string' ? productId : productId._id}>
-                            {product ? product.name : 'Loading...'}
+                            {product ? product.productName : 'Loading...'}
                           </li>
                         );
                       })}
